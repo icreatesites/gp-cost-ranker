@@ -1,0 +1,226 @@
+# 2027 calendar. NOT confirmed by FOM as of 2026-08-30; announcement expected autumn 2026.
+# status: confirmed | provisional | rumoured | cancelled
+# date_source: 'FOM official' | 'circuit ticketing' | 'press reporting'
+# race_date is the Sunday (or the race day). Session times are LOCAL, 24h.
+# Where the slot is inferred from the 2026 calendar, it says so in `note`.
+# When the nightly job pulls a confirmed calendar from Jolpica it overwrites status/date but keeps notes.
+
+season: 2027
+status_last_checked: 2026-08-30
+races:
+  - race_id: bahrain-grand-prix
+    name: Bahrain Grand Prix
+    circuit_id: bahrain
+    race_date: 2027-03-14
+    status: provisional
+    date_source: press reporting
+    fp1_local: "14:30"
+    race_local: "18:00"
+    note: Reported season opener. Depends on Middle East situation; F1 has a contingency plan.
+  - race_id: saudi-arabian-grand-prix
+    name: Saudi Arabian Grand Prix
+    circuit_id: jeddah
+    race_date: 2027-03-21
+    status: rumoured
+    date_source: press reporting
+    fp1_local: "16:30"
+    race_local: "20:00"
+    note: 2026 edition was cancelled. 2027 return reported but not certain.
+  - race_id: australian-grand-prix
+    name: Australian Grand Prix
+    circuit_id: albert_park
+    race_date: 2027-04-04
+    status: provisional
+    date_source: press reporting
+    fp1_local: "12:30"
+    race_local: "15:00"
+    note: Slot inferred; Melbourne loses the opener to Bahrain in the provisional schedule.
+  - race_id: chinese-grand-prix
+    name: Chinese Grand Prix
+    circuit_id: shanghai
+    race_date: 2027-04-11
+    status: provisional
+    date_source: press reporting
+    fp1_local: "11:30"
+    race_local: "15:00"
+    note: Slot inferred from 2026.
+  - race_id: japanese-grand-prix
+    name: Japanese Grand Prix
+    circuit_id: suzuka
+    race_date: 2027-04-25
+    status: provisional
+    date_source: press reporting
+    fp1_local: "11:30"
+    race_local: "14:00"
+    note: Slot inferred from 2026.
+  - race_id: miami-grand-prix
+    name: Miami Grand Prix
+    circuit_id: miami
+    race_date: 2027-05-02
+    status: provisional
+    date_source: press reporting
+    fp1_local: "12:30"
+    race_local: "16:00"
+    note: Slot inferred from 2026.
+  - race_id: canadian-grand-prix
+    name: Canadian Grand Prix
+    circuit_id: villeneuve
+    race_date: 2027-05-23
+    status: provisional
+    date_source: press reporting
+    fp1_local: "13:30"
+    race_local: "14:00"
+    note: Slot inferred from 2026 (moved to May from 2026).
+  - race_id: monaco-grand-prix
+    name: Monaco Grand Prix
+    circuit_id: monaco
+    race_date: 2027-06-06
+    status: confirmed
+    date_source: circuit ticketing
+    fp1_local: "13:30"
+    race_local: "15:00"
+    note: 4-6 June 2027 published by the ACM. Hotels sell out over a year ahead.
+  - race_id: austrian-grand-prix
+    name: Austrian Grand Prix
+    circuit_id: red_bull_ring
+    race_date: 2027-06-27
+    status: provisional
+    date_source: press reporting
+    fp1_local: "13:30"
+    race_local: "15:00"
+    note: Slot inferred from 2026.
+  - race_id: british-grand-prix
+    name: British Grand Prix
+    circuit_id: silverstone
+    race_date: 2027-07-04
+    status: confirmed
+    date_source: circuit ticketing
+    fp1_local: "12:30"
+    race_local: "15:00"
+    note: 2-4 July 2027 published by Silverstone. Dynamic pricing applies.
+  - race_id: belgian-grand-prix
+    name: Belgian Grand Prix
+    circuit_id: spa
+    race_date: 2027-07-25
+    status: provisional
+    date_source: press reporting
+    fp1_local: "13:30"
+    race_local: "15:00"
+    note: Spa alternates with Barcelona from 2027; Belgium hosts in 2027. Slot inferred.
+  - race_id: hungarian-grand-prix
+    name: Hungarian Grand Prix
+    circuit_id: hungaroring
+    race_date: 2027-08-01
+    status: provisional
+    date_source: press reporting
+    fp1_local: "13:30"
+    race_local: "15:00"
+    note: Slot inferred from 2026.
+  - race_id: portuguese-grand-prix
+    name: Portuguese Grand Prix
+    circuit_id: portimao
+    race_date: 2027-08-29
+    status: provisional
+    date_source: press reporting
+    fp1_local: "13:30"
+    race_local: "15:00"
+    note: Returns for 2027-28. Slot is a guess; only the return is reported, not the date.
+  - race_id: italian-grand-prix
+    name: Italian Grand Prix
+    circuit_id: monza
+    race_date: 2027-09-05
+    status: provisional
+    date_source: press reporting
+    fp1_local: "13:30"
+    race_local: "15:00"
+    note: Slot inferred from 2026.
+  - race_id: spanish-grand-prix
+    name: Spanish Grand Prix
+    circuit_id: madrid
+    race_date: 2027-09-12
+    status: provisional
+    date_source: press reporting
+    fp1_local: "13:30"
+    race_local: "15:00"
+    note: Madrid, second year. Slot inferred from 2026.
+  - race_id: turkish-grand-prix
+    name: Turkish Grand Prix
+    circuit_id: istanbul
+    race_date: 2027-09-19
+    status: provisional
+    date_source: press reporting
+    fp1_local: "13:30"
+    race_local: "15:00"
+    note: Returns 2027. Slot is a guess.
+  - race_id: azerbaijan-grand-prix
+    name: Azerbaijan Grand Prix
+    circuit_id: baku
+    race_date: 2027-09-26
+    status: provisional
+    date_source: press reporting
+    fp1_local: "12:30"
+    race_local: "15:00"
+    note: Slot inferred from 2026.
+  - race_id: singapore-grand-prix
+    name: Singapore Grand Prix
+    circuit_id: marina_bay
+    race_date: 2027-10-10
+    status: provisional
+    date_source: press reporting
+    fp1_local: "17:30"
+    race_local: "20:00"
+    note: Slot inferred from 2026.
+  - race_id: united-states-grand-prix
+    name: United States Grand Prix
+    circuit_id: americas
+    race_date: 2027-10-24
+    status: provisional
+    date_source: press reporting
+    fp1_local: "12:30"
+    race_local: "14:00"
+    note: Slot inferred from 2026.
+  - race_id: mexico-city-grand-prix
+    name: Mexico City Grand Prix
+    circuit_id: rodriguez
+    race_date: 2027-10-31
+    status: provisional
+    date_source: press reporting
+    fp1_local: "12:30"
+    race_local: "14:00"
+    note: Slot inferred from 2026.
+  - race_id: sao-paulo-grand-prix
+    name: São Paulo Grand Prix
+    circuit_id: interlagos
+    race_date: 2027-11-07
+    status: provisional
+    date_source: press reporting
+    fp1_local: "11:30"
+    race_local: "14:00"
+    note: Slot inferred from 2026.
+  - race_id: las-vegas-grand-prix
+    name: Las Vegas Grand Prix
+    circuit_id: las_vegas
+    race_date: 2027-11-20
+    status: provisional
+    date_source: press reporting
+    fp1_local: "16:30"
+    race_local: "20:00"
+    note: Saturday race. Slot inferred from 2026.
+  - race_id: qatar-grand-prix
+    name: Qatar Grand Prix
+    circuit_id: lusail
+    race_date: 2027-11-28
+    status: provisional
+    date_source: press reporting
+    fp1_local: "16:30"
+    race_local: "19:00"
+    note: Slot inferred from 2026.
+  - race_id: abu-dhabi-grand-prix
+    name: Abu Dhabi Grand Prix
+    circuit_id: yas_marina
+    race_date: 2027-12-05
+    status: provisional
+    date_source: press reporting
+    fp1_local: "13:30"
+    race_local: "17:00"
+    note: Slot inferred from 2026. Dynamic pricing applies.

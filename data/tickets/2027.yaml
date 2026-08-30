@@ -1,0 +1,36 @@
+# Ticket prices for 2027, GBP, 3-day passes unless noted. Every price is a RANGE [low, high] because
+# dynamic pricing (Silverstone, Australia, Abu Dhabi) makes a single number a fiction.
+# Most 2027 prices are NOT announced yet. Where it says source: "2026 season, indexed" the numbers are
+# last year's published circuit prices nudged up ~8%, which is what the last three years averaged.
+# Replace with official 2027 figures as circuits publish them. That's a one-line PR each.
+#
+# obtainability: easy | moderate | hard | sells_out_instantly
+# ga = general admission, gs_cheapest = cheapest grandstand, gs_main = main straight / pit grandstand
+# confidence: high (official 2027 price) | medium (official 2026 price, indexed) | low (editor estimate)
+
+season: 2027
+races:
+  - { race_id: bahrain-grand-prix,        ga: [130, 160],  gs_cheapest: [230, 280],  gs_main: [430, 500],   obtainability: easy,    on_sale: null, source: "2026 season, indexed", confidence: medium, captured: 2026-08-30 }
+  - { race_id: saudi-arabian-grand-prix,  ga: [160, 200],  gs_cheapest: [320, 380],  gs_main: [700, 850],   obtainability: easy,    on_sale: null, source: "2025 season, indexed (2026 cancelled)", confidence: low, captured: 2026-08-30 }
+  - { race_id: australian-grand-prix,     ga: [120, 200],  gs_cheapest: [280, 420],  gs_main: [550, 800],   obtainability: hard,    on_sale: null, source: "2026 season, indexed. Dynamic pricing", confidence: medium, captured: 2026-08-30 }
+  - { race_id: chinese-grand-prix,        ga: [90, 120],   gs_cheapest: [150, 200],  gs_main: [300, 380],   obtainability: sells_out_instantly, on_sale: null, source: "2026 season, indexed", confidence: medium, captured: 2026-08-30 }
+  - { race_id: japanese-grand-prix,       ga: [110, 140],  gs_cheapest: [200, 260],  gs_main: [450, 550],   obtainability: hard,    on_sale: null, source: "2026 season, indexed", confidence: medium, captured: 2026-08-30 }
+  - { race_id: miami-grand-prix,          ga: [450, 550],  gs_cheapest: [700, 900],  gs_main: [1400, 1800], obtainability: moderate, on_sale: null, source: "2026 season, indexed", confidence: medium, captured: 2026-08-30 }
+  - { race_id: canadian-grand-prix,       ga: [230, 290],  gs_cheapest: [380, 480],  gs_main: [700, 900],   obtainability: moderate, on_sale: null, source: "2026 season, indexed", confidence: medium, captured: 2026-08-30 }
+  - { race_id: monaco-grand-prix,         ga: [190, 240],  gs_cheapest: [420, 520],  gs_main: [900, 1200],  obtainability: hard,    on_sale: 2026-11-01, source: "2026 ACM prices, indexed. GA is Secteur Rocher, standing, 2 days", confidence: medium, captured: 2026-08-30 }
+  - { race_id: austrian-grand-prix,       ga: [150, 190],  gs_cheapest: [280, 350],  gs_main: [500, 650],   obtainability: moderate, on_sale: null, source: "2026 season, indexed", confidence: medium, captured: 2026-08-30 }
+  - { race_id: british-grand-prix,        ga: [230, 320],  gs_cheapest: [380, 480],  gs_main: [600, 800],   obtainability: moderate, on_sale: 2026-07-01, source: "2027 on sale; dynamic pricing so range is wide. Verify against silverstone.co.uk", confidence: low, captured: 2026-08-30 }
+  - { race_id: belgian-grand-prix,        ga: [150, 190],  gs_cheapest: [300, 380],  gs_main: [550, 700],   obtainability: moderate, on_sale: null, source: "2026 season, indexed", confidence: medium, captured: 2026-08-30 }
+  - { race_id: hungarian-grand-prix,      ga: [140, 180],  gs_cheapest: [260, 330],  gs_main: [480, 600],   obtainability: easy,    on_sale: null, source: "2026 season, indexed", confidence: medium, captured: 2026-08-30 }
+  - { race_id: portuguese-grand-prix,     ga: [110, 160],  gs_cheapest: [220, 300],  gs_main: [400, 550],   obtainability: moderate, on_sale: null, source: "2021 prices, indexed heavily. Guess.", confidence: low, captured: 2026-08-30 }
+  - { race_id: italian-grand-prix,        ga: [130, 170],  gs_cheapest: [260, 340],  gs_main: [500, 650],   obtainability: easy,    on_sale: null, source: "2026 season, indexed", confidence: medium, captured: 2026-08-30 }
+  - { race_id: spanish-grand-prix,        ga: [180, 240],  gs_cheapest: [350, 450],  gs_main: [650, 850],   obtainability: moderate, on_sale: null, source: "2026 inaugural Madrid prices, indexed", confidence: low, captured: 2026-08-30 }
+  - { race_id: turkish-grand-prix,        ga: [60, 100],   gs_cheapest: [120, 180],  gs_main: [250, 350],   obtainability: easy,    on_sale: null, source: "2021 prices, indexed. Guess.", confidence: low, captured: 2026-08-30 }
+  - { race_id: azerbaijan-grand-prix,     ga: [100, 130],  gs_cheapest: [200, 260],  gs_main: [400, 500],   obtainability: easy,    on_sale: null, source: "2026 season, indexed", confidence: medium, captured: 2026-08-30 }
+  - { race_id: singapore-grand-prix,      ga: [280, 340],  gs_cheapest: [500, 620],  gs_main: [900, 1100],  obtainability: moderate, on_sale: null, source: "2026 season, indexed", confidence: medium, captured: 2026-08-30 }
+  - { race_id: united-states-grand-prix,  ga: [240, 300],  gs_cheapest: [400, 500],  gs_main: [800, 1000],  obtainability: easy,    on_sale: null, source: "2026 season, indexed", confidence: medium, captured: 2026-08-30 }
+  - { race_id: mexico-city-grand-prix,    ga: [150, 200],  gs_cheapest: [350, 450],  gs_main: [650, 850],   obtainability: hard,    on_sale: null, source: "2026 season, indexed", confidence: medium, captured: 2026-08-30 }
+  - { race_id: sao-paulo-grand-prix,      ga: [120, 160],  gs_cheapest: [250, 320],  gs_main: [500, 650],   obtainability: sells_out_instantly, on_sale: null, source: "2026 season, indexed", confidence: medium, captured: 2026-08-30 }
+  - { race_id: las-vegas-grand-prix,      ga: [350, 500],  gs_cheapest: [700, 1000], gs_main: [1600, 2400], obtainability: easy,    on_sale: null, source: "2026 season, indexed. GA is the Sphere zone, 3 days", confidence: medium, captured: 2026-08-30 }
+  - { race_id: qatar-grand-prix,          ga: [200, 260],  gs_cheapest: [350, 450],  gs_main: [650, 850],   obtainability: easy,    on_sale: null, source: "2026 season, indexed", confidence: medium, captured: 2026-08-30 }
+  - { race_id: abu-dhabi-grand-prix,      ga: [250, 350],  gs_cheapest: [450, 600],  gs_main: [800, 1100],  obtainability: moderate, on_sale: null, source: "2026 season, indexed. Dynamic pricing", confidence: medium, captured: 2026-08-30 }

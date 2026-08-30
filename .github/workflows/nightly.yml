@@ -1,0 +1,17 @@
+name: nightly calendar mirror
+on:
+  schedule: [{ cron: "17 3 * * *" }]
+  workflow_dispatch:
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    permissions: { contents: write }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm ci
+      - run: SEASON=2027 node src/mirror-calendar.js
+      - run: npm run validate
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with: { commit_message: "nightly: mirror calendar from Jolpica", file_pattern: data/calendar/*.yaml }

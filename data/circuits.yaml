@@ -1,0 +1,340 @@
+# Circuits and their airports. This file changes roughly never; do it properly once.
+# transfer_cost_gbp is ONE WAY, airport -> circuit-area accommodation, public transport where sane.
+# circuit_transport_gbp_per_day is the daily cost of getting from where you sleep to the track.
+# All figures are editor estimates captured 2026-08. Fix by PR.
+
+- circuit_id: bahrain
+  name: Bahrain International Circuit
+  country: Bahrain
+  lat: 26.0325
+  lon: 50.5106
+  tz_offset_hours: 3
+  nearest_city: Manama
+  circuit_transport_gbp_per_day: 15
+  airports:
+    - { iata: BAH, lat: 26.2708, lon: 50.6336, transfer_cost_gbp: 12, transfer_minutes: 35, transfer_mode: taxi }
+  notes: Taxi from Manama is the only realistic option. Cheap hotels are genuinely cheap outside race weekend.
+
+- circuit_id: jeddah
+  name: Jeddah Corniche Circuit
+  country: Saudi Arabia
+  lat: 21.6319
+  lon: 39.1044
+  tz_offset_hours: 3
+  nearest_city: Jeddah
+  circuit_transport_gbp_per_day: 12
+  airports:
+    - { iata: JED, lat: 21.6796, lon: 39.1565, transfer_cost_gbp: 10, transfer_minutes: 25, transfer_mode: taxi }
+  notes: Night race. Visa needed for most passports (eVisa).
+
+- circuit_id: albert_park
+  name: Albert Park Circuit
+  country: Australia
+  lat: -37.8497
+  lon: 144.9680
+  tz_offset_hours: 11
+  nearest_city: Melbourne
+  circuit_transport_gbp_per_day: 5
+  airports:
+    - { iata: MEL, lat: -37.6733, lon: 144.8433, transfer_cost_gbp: 12, transfer_minutes: 40, transfer_mode: SkyBus }
+  notes: Tram to the circuit from the city centre. Long haul from everywhere except Asia-Pacific.
+
+- circuit_id: shanghai
+  name: Shanghai International Circuit
+  country: China
+  lat: 31.3389
+  lon: 121.2197
+  tz_offset_hours: 8
+  nearest_city: Shanghai
+  circuit_transport_gbp_per_day: 4
+  airports:
+    - { iata: PVG, lat: 31.1443, lon: 121.8083, transfer_cost_gbp: 8, transfer_minutes: 60, transfer_mode: metro }
+  notes: Metro line 11 reaches the circuit. Tickets sell out to local demand fast; visa-free transit rules change often, check before booking.
+
+- circuit_id: suzuka
+  name: Suzuka Circuit
+  country: Japan
+  lat: 34.8431
+  lon: 136.5410
+  tz_offset_hours: 9
+  nearest_city: Nagoya
+  circuit_transport_gbp_per_day: 10
+  airports:
+    - { iata: NGO, lat: 34.8584, lon: 136.8054, transfer_cost_gbp: 15, transfer_minutes: 75, transfer_mode: train }
+    - { iata: KIX, lat: 34.4347, lon: 135.2440, transfer_cost_gbp: 35, transfer_minutes: 150, transfer_mode: train }
+  notes: Stay in Nagoya, not Suzuka; Suzuka hotels sell out a year ahead. Shinkansen from Osaka works.
+
+- circuit_id: sepang
+  name: Sepang International Circuit
+  country: Malaysia
+  lat: 2.7608
+  lon: 101.7382
+  tz_offset_hours: 8
+  nearest_city: Kuala Lumpur
+  circuit_transport_gbp_per_day: 8
+  airports:
+    - { iata: KUL, lat: 2.7456, lon: 101.7099, transfer_cost_gbp: 10, transfer_minutes: 45, transfer_mode: KLIA Ekspres }
+  notes: The circuit is next to the airport. Hotels in KL are excellent value.
+
+- circuit_id: miami
+  name: Miami International Autodrome
+  country: United States
+  lat: 25.9581
+  lon: -80.2389
+  tz_offset_hours: -4
+  nearest_city: Miami
+  circuit_transport_gbp_per_day: 20
+  airports:
+    - { iata: MIA, lat: 25.7959, lon: -80.2870, transfer_cost_gbp: 30, transfer_minutes: 30, transfer_mode: rideshare }
+    - { iata: FLL, lat: 26.0726, lon: -80.1527, transfer_cost_gbp: 35, transfer_minutes: 35, transfer_mode: rideshare }
+  notes: No public transport worth the name. Budget for rideshare surge pricing on race day.
+
+- circuit_id: villeneuve
+  name: Circuit Gilles Villeneuve
+  country: Canada
+  lat: 45.5000
+  lon: -73.5228
+  tz_offset_hours: -4
+  nearest_city: Montreal
+  circuit_transport_gbp_per_day: 6
+  airports:
+    - { iata: YUL, lat: 45.4706, lon: -73.7408, transfer_cost_gbp: 8, transfer_minutes: 40, transfer_mode: bus 747 }
+  notes: Metro to Jean-Drapeau station, walk to the track. Hotels triple in price; book early.
+
+- circuit_id: monaco
+  name: Circuit de Monaco
+  country: Monaco
+  lat: 43.7347
+  lon: 7.4206
+  tz_offset_hours: 2
+  nearest_city: Nice
+  circuit_transport_gbp_per_day: 10
+  airports:
+    - { iata: NCE, lat: 43.6584, lon: 7.2159, transfer_cost_gbp: 6, transfer_minutes: 40, transfer_mode: tram + train }
+  notes: Nobody on a budget sleeps in Monaco. Stay in Nice or Menton and take the train.
+
+- circuit_id: catalunya
+  name: Circuit de Barcelona-Catalunya
+  country: Spain
+  lat: 41.5700
+  lon: 2.2611
+  tz_offset_hours: 2
+  nearest_city: Barcelona
+  circuit_transport_gbp_per_day: 8
+  airports:
+    - { iata: BCN, lat: 41.2971, lon: 2.0785, transfer_cost_gbp: 12, transfer_minutes: 55, transfer_mode: train + shuttle }
+  notes: Dense hotel inventory, city is cheap to reach from most of Europe. Not on the 2027 calendar.
+
+- circuit_id: red_bull_ring
+  name: Red Bull Ring
+  country: Austria
+  lat: 47.2197
+  lon: 14.7647
+  tz_offset_hours: 2
+  nearest_city: Graz
+  circuit_transport_gbp_per_day: 12
+  airports:
+    - { iata: GRZ, lat: 46.9911, lon: 15.4396, transfer_cost_gbp: 20, transfer_minutes: 70, transfer_mode: train + bus }
+    - { iata: VIE, lat: 48.1103, lon: 16.5697, transfer_cost_gbp: 30, transfer_minutes: 150, transfer_mode: train }
+  notes: Camping is the local tradition and dramatically cuts accommodation cost.
+
+- circuit_id: silverstone
+  name: Silverstone Circuit
+  country: United Kingdom
+  lat: 52.0786
+  lon: -1.0169
+  tz_offset_hours: 1
+  nearest_city: Milton Keynes
+  circuit_transport_gbp_per_day: 15
+  airports:
+    - { iata: BHX, lat: 52.4539, lon: -1.7480, transfer_cost_gbp: 25, transfer_minutes: 80, transfer_mode: train + shuttle }
+    - { iata: LTN, lat: 51.8747, lon: -0.3683, transfer_cost_gbp: 25, transfer_minutes: 80, transfer_mode: train + shuttle }
+    - { iata: LHR, lat: 51.4700, lon: -0.4543, transfer_cost_gbp: 35, transfer_minutes: 110, transfer_mode: train + shuttle }
+  notes: Dynamic ticket pricing. Park-and-ride and the Milton Keynes shuttle are the sane options.
+
+- circuit_id: spa
+  name: Circuit de Spa-Francorchamps
+  country: Belgium
+  lat: 50.4372
+  lon: 5.9714
+  tz_offset_hours: 2
+  nearest_city: Liège
+  circuit_transport_gbp_per_day: 15
+  airports:
+    - { iata: BRU, lat: 50.9014, lon: 4.4844, transfer_cost_gbp: 25, transfer_minutes: 120, transfer_mode: train + shuttle }
+    - { iata: CRL, lat: 50.4592, lon: 4.4538, transfer_cost_gbp: 25, transfer_minutes: 130, transfer_mode: bus + train }
+    - { iata: DUS, lat: 51.2895, lon: 6.7668, transfer_cost_gbp: 30, transfer_minutes: 120, transfer_mode: train }
+  notes: Rural. Camping near the circuit is popular; hotels in Liège or Aachen are the alternative.
+
+- circuit_id: hungaroring
+  name: Hungaroring
+  country: Hungary
+  lat: 47.5789
+  lon: 19.2486
+  tz_offset_hours: 2
+  nearest_city: Budapest
+  circuit_transport_gbp_per_day: 6
+  airports:
+    - { iata: BUD, lat: 47.4369, lon: 19.2556, transfer_cost_gbp: 4, transfer_minutes: 45, transfer_mode: bus 100E }
+  notes: Budapest is one of the cheapest host cities on the calendar. Train + shuttle to the circuit.
+
+- circuit_id: monza
+  name: Autodromo Nazionale Monza
+  country: Italy
+  lat: 45.6156
+  lon: 9.2811
+  tz_offset_hours: 2
+  nearest_city: Milan
+  circuit_transport_gbp_per_day: 6
+  airports:
+    - { iata: MXP, lat: 45.6306, lon: 8.7231, transfer_cost_gbp: 12, transfer_minutes: 60, transfer_mode: train }
+    - { iata: BGY, lat: 45.6739, lon: 9.7042, transfer_cost_gbp: 8, transfer_minutes: 50, transfer_mode: bus }
+    - { iata: LIN, lat: 45.4451, lon: 9.2767, transfer_cost_gbp: 6, transfer_minutes: 40, transfer_mode: bus + metro }
+  notes: Train Milan to Monza then a walk or shuttle through the park. Three airports keep fares low.
+
+- circuit_id: madrid
+  name: Madring
+  country: Spain
+  lat: 40.4669
+  lon: -3.5700
+  tz_offset_hours: 2
+  nearest_city: Madrid
+  circuit_transport_gbp_per_day: 4
+  airports:
+    - { iata: MAD, lat: 40.4983, lon: -3.5676, transfer_cost_gbp: 5, transfer_minutes: 30, transfer_mode: metro }
+  notes: Circuit is beside the airport and on the metro. First race was 2026; treat everything here as low confidence.
+
+- circuit_id: baku
+  name: Baku City Circuit
+  country: Azerbaijan
+  lat: 40.3725
+  lon: 49.8533
+  tz_offset_hours: 4
+  nearest_city: Baku
+  circuit_transport_gbp_per_day: 3
+  airports:
+    - { iata: GYD, lat: 40.4675, lon: 50.0467, transfer_cost_gbp: 3, transfer_minutes: 30, transfer_mode: bus }
+  notes: eVisa for most passports. Very cheap on the ground; the flight is the cost.
+
+- circuit_id: marina_bay
+  name: Marina Bay Street Circuit
+  country: Singapore
+  lat: 1.2914
+  lon: 103.8640
+  tz_offset_hours: 8
+  nearest_city: Singapore
+  circuit_transport_gbp_per_day: 3
+  airports:
+    - { iata: SIN, lat: 1.3644, lon: 103.9915, transfer_cost_gbp: 2, transfer_minutes: 35, transfer_mode: MRT }
+  notes: Night race. Hotels are the most expensive line by a distance.
+
+- circuit_id: americas
+  name: Circuit of the Americas
+  country: United States
+  lat: 30.1328
+  lon: -97.6411
+  tz_offset_hours: -5
+  nearest_city: Austin
+  circuit_transport_gbp_per_day: 25
+  airports:
+    - { iata: AUS, lat: 30.1975, lon: -97.6664, transfer_cost_gbp: 25, transfer_minutes: 25, transfer_mode: rideshare }
+  notes: Shuttles from downtown are the budget route. Rideshare on race night is brutal.
+
+- circuit_id: rodriguez
+  name: Autódromo Hermanos Rodríguez
+  country: Mexico
+  lat: 19.4042
+  lon: -99.0907
+  tz_offset_hours: -6
+  nearest_city: Mexico City
+  circuit_transport_gbp_per_day: 3
+  airports:
+    - { iata: MEX, lat: 19.4363, lon: -99.0721, transfer_cost_gbp: 8, transfer_minutes: 30, transfer_mode: taxi }
+  notes: Metro to the circuit. Cheap city, expensive-ish tickets.
+
+- circuit_id: interlagos
+  name: Autódromo José Carlos Pace
+  country: Brazil
+  lat: -23.7036
+  lon: -46.6997
+  tz_offset_hours: -3
+  nearest_city: São Paulo
+  circuit_transport_gbp_per_day: 5
+  airports:
+    - { iata: GRU, lat: -23.4356, lon: -46.4731, transfer_cost_gbp: 15, transfer_minutes: 75, transfer_mode: bus + metro }
+    - { iata: CGH, lat: -23.6261, lon: -46.6564, transfer_cost_gbp: 6, transfer_minutes: 30, transfer_mode: taxi }
+  notes: Metro/train to Autódromo station. Tickets sell out quickly to domestic demand.
+
+- circuit_id: las_vegas
+  name: Las Vegas Strip Circuit
+  country: United States
+  lat: 36.1147
+  lon: -115.1728
+  tz_offset_hours: -8
+  nearest_city: Las Vegas
+  circuit_transport_gbp_per_day: 0
+  airports:
+    - { iata: LAS, lat: 36.0840, lon: -115.1537, transfer_cost_gbp: 20, transfer_minutes: 20, transfer_mode: rideshare }
+  notes: Saturday night race; sessions run past midnight. Ticket is the cost; walk from the hotel.
+
+- circuit_id: lusail
+  name: Lusail International Circuit
+  country: Qatar
+  lat: 25.4900
+  lon: 51.4542
+  tz_offset_hours: 3
+  nearest_city: Doha
+  circuit_transport_gbp_per_day: 5
+  airports:
+    - { iata: DOH, lat: 25.2731, lon: 51.6081, transfer_cost_gbp: 5, transfer_minutes: 30, transfer_mode: metro }
+  notes: Metro to Lusail then shuttle. Night race.
+
+- circuit_id: yas_marina
+  name: Yas Marina Circuit
+  country: United Arab Emirates
+  lat: 24.4672
+  lon: 54.6031
+  tz_offset_hours: 4
+  nearest_city: Abu Dhabi
+  circuit_transport_gbp_per_day: 10
+  airports:
+    - { iata: AUH, lat: 24.4330, lon: 54.6511, transfer_cost_gbp: 10, transfer_minutes: 15, transfer_mode: taxi }
+    - { iata: DXB, lat: 25.2528, lon: 55.3644, transfer_cost_gbp: 40, transfer_minutes: 80, transfer_mode: taxi }
+  notes: Dynamic ticket pricing. Hotel rates spike violently; the earlier you book the better, by a lot.
+
+- circuit_id: portimao
+  name: Algarve International Circuit
+  country: Portugal
+  lat: 37.2270
+  lon: -8.6267
+  tz_offset_hours: 1
+  nearest_city: Portimão
+  circuit_transport_gbp_per_day: 15
+  airports:
+    - { iata: FAO, lat: 37.0144, lon: -7.9659, transfer_cost_gbp: 25, transfer_minutes: 60, transfer_mode: bus + taxi }
+  notes: Returns 2027. Shuttle buses ran from Portimão and Lagos last time. Holiday-town hotel inventory is deep.
+
+- circuit_id: istanbul
+  name: Istanbul Park
+  country: Türkiye
+  lat: 40.9517
+  lon: 29.4050
+  tz_offset_hours: 3
+  nearest_city: Istanbul
+  circuit_transport_gbp_per_day: 8
+  airports:
+    - { iata: SAW, lat: 40.8986, lon: 29.3092, transfer_cost_gbp: 6, transfer_minutes: 25, transfer_mode: taxi }
+    - { iata: IST, lat: 41.2753, lon: 28.7519, transfer_cost_gbp: 20, transfer_minutes: 90, transfer_mode: bus }
+  notes: Returns 2027. The circuit is on the Asian side near Sabiha Gökçen; fly there, not IST.
+
+- circuit_id: zandvoort
+  name: Circuit Zandvoort
+  country: Netherlands
+  lat: 52.3888
+  lon: 4.5409
+  tz_offset_hours: 2
+  nearest_city: Amsterdam
+  circuit_transport_gbp_per_day: 8
+  airports:
+    - { iata: AMS, lat: 52.3105, lon: 4.7683, transfer_cost_gbp: 6, transfer_minutes: 40, transfer_mode: train }
+  notes: Last race 2026. Kept for the 2026 season and in case it returns.

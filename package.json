@@ -1,0 +1,20 @@
+{
+  "name": "gp-cost-ranker",
+  "version": "1.0.0",
+  "description": "Rank every Grand Prix by total weekend cost from your airport.",
+  "main": "index.js",
+  "scripts": {
+    "validate": "node src/validate.js",
+    "build": "node src/validate.js && node src/build.js",
+    "mirror": "node src/mirror-calendar.js",
+    "serve": "npx serve site"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ajv": "^8.20.0",
+    "js-yaml": "^5.4.1"
+  },
+  "private": true
+}

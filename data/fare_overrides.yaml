@@ -1,0 +1,20 @@
+# Route fare overrides. When present, these REPLACE the distance model for that route and month.
+# This is the single best way to improve the site: search a route for race weekend, or tell us what you paid.
+#
+# Fields:
+#   origin_iata, dest_iata, month (1-12)
+#   estimated_return_gbp: economy return, per person, the "standard" tier (one stop is fine, sane times)
+#   confidence: medium (sampled search) | high (fare actually paid)
+#   source: where the number came from, in a sentence
+#   last_refreshed: YYYY-MM-DD
+#
+# Nothing below is a real sample yet. The one entry is a worked example, marked as such, so the
+# build has something to exercise. Delete it when the first real one lands.
+
+- origin_iata: LHR
+  dest_iata: NCE
+  month: 6
+  estimated_return_gbp: 210
+  confidence: low
+  source: "Worked example only. Editor guess for London to Nice, Monaco weekend. Replace me."
+  last_refreshed: 2026-08-30

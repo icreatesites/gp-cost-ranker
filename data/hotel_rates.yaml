@@ -1,0 +1,36 @@
+# Nightly rate bands in GBP, RACE WEEKEND, per room, booked roughly 6-9 months out, in the town
+# a sane person on that budget would actually stay in (see circuits.yaml notes).
+# budget = hostel bed / basic 2-star / camping where it's the norm
+# mid = 3-star chain
+# comfortable = 4-star
+# captured is when someone last looked. Anything over a year old renders greyed out with a warning.
+# These are editor estimates from operator guides and booking-site sampling in Aug 2026, not booked rates.
+# If you booked a room for a race weekend, tell us what you paid: that's better data than any of this.
+
+- { circuit_id: bahrain,        budget: 45,  mid: 110, comfortable: 190, captured: 2026-08-30, source: editor estimate, confidence: low }
+- { circuit_id: jeddah,         budget: 60,  mid: 140, comfortable: 240, captured: 2026-08-30, source: editor estimate, confidence: low }
+- { circuit_id: albert_park,    budget: 55,  mid: 170, comfortable: 280, captured: 2026-08-30, source: editor estimate, confidence: low }
+- { circuit_id: shanghai,       budget: 30,  mid: 80,  comfortable: 150, captured: 2026-08-30, source: editor estimate, confidence: low }
+- { circuit_id: suzuka,         budget: 45,  mid: 120, comfortable: 200, captured: 2026-08-30, source: "editor estimate, Nagoya not Suzuka", confidence: low }
+- { circuit_id: sepang,         budget: 25,  mid: 60,  comfortable: 110, captured: 2026-08-30, source: editor estimate, confidence: low }
+- { circuit_id: miami,          budget: 110, mid: 260, comfortable: 420, captured: 2026-08-30, source: editor estimate, confidence: low }
+- { circuit_id: villeneuve,     budget: 80,  mid: 260, comfortable: 400, captured: 2026-08-30, source: editor estimate, confidence: low }
+- { circuit_id: monaco,         budget: 70,  mid: 200, comfortable: 380, captured: 2026-08-30, source: "editor estimate, Nice not Monaco", confidence: low }
+- { circuit_id: catalunya,      budget: 45,  mid: 130, comfortable: 210, captured: 2026-08-30, source: editor estimate, confidence: low }
+- { circuit_id: red_bull_ring,  budget: 35,  mid: 160, comfortable: 260, captured: 2026-08-30, source: "editor estimate, budget = camping", confidence: low }
+- { circuit_id: silverstone,    budget: 40,  mid: 180, comfortable: 280, captured: 2026-08-30, source: "editor estimate, budget = camping", confidence: low }
+- { circuit_id: spa,            budget: 35,  mid: 170, comfortable: 260, captured: 2026-08-30, source: "editor estimate, budget = camping", confidence: low }
+- { circuit_id: hungaroring,    budget: 30,  mid: 100, comfortable: 170, captured: 2026-08-30, source: editor estimate, confidence: low }
+- { circuit_id: monza,          budget: 45,  mid: 150, comfortable: 250, captured: 2026-08-30, source: editor estimate, confidence: low }
+- { circuit_id: madrid,         budget: 45,  mid: 140, comfortable: 230, captured: 2026-08-30, source: editor estimate, confidence: low }
+- { circuit_id: baku,           budget: 25,  mid: 70,  comfortable: 140, captured: 2026-08-30, source: editor estimate, confidence: low }
+- { circuit_id: marina_bay,     budget: 60,  mid: 260, comfortable: 450, captured: 2026-08-30, source: editor estimate, confidence: low }
+- { circuit_id: americas,       budget: 90,  mid: 280, comfortable: 420, captured: 2026-08-30, source: editor estimate, confidence: low }
+- { circuit_id: rodriguez,      budget: 30,  mid: 100, comfortable: 190, captured: 2026-08-30, source: editor estimate, confidence: low }
+- { circuit_id: interlagos,     budget: 30,  mid: 90,  comfortable: 170, captured: 2026-08-30, source: editor estimate, confidence: low }
+- { circuit_id: las_vegas,      budget: 60,  mid: 180, comfortable: 350, captured: 2026-08-30, source: "editor estimate, mid-week is far cheaper", confidence: low }
+- { circuit_id: lusail,         budget: 60,  mid: 150, comfortable: 260, captured: 2026-08-30, source: editor estimate, confidence: low }
+- { circuit_id: yas_marina,     budget: 70,  mid: 220, comfortable: 380, captured: 2026-08-30, source: "editor estimate, spikes hard late", confidence: low }
+- { circuit_id: portimao,       budget: 40,  mid: 110, comfortable: 190, captured: 2026-08-30, source: editor estimate, confidence: low }
+- { circuit_id: istanbul,       budget: 25,  mid: 70,  comfortable: 130, captured: 2026-08-30, source: editor estimate, confidence: low }
+- { circuit_id: zandvoort,      budget: 50,  mid: 180, comfortable: 280, captured: 2026-08-30, source: editor estimate, confidence: low }

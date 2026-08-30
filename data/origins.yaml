@@ -1,0 +1,51 @@
+# Origin airports. Adding one is a one-line PR. slug is used in URLs: /from/<slug>/2027/
+# hub: true means a large airport with direct long-haul; used by the fare model to discount long-haul connections.
+- { slug: london, city: London, country: United Kingdom, iata: LHR, lat: 51.4700, lon: -0.4543, hub: true, region: europe }
+- { slug: manchester, city: Manchester, country: United Kingdom, iata: MAN, lat: 53.3537, lon: -2.2750, hub: false, region: europe }
+- { slug: birmingham, city: Birmingham, country: United Kingdom, iata: BHX, lat: 52.4539, lon: -1.7480, hub: false, region: europe }
+- { slug: edinburgh, city: Edinburgh, country: United Kingdom, iata: EDI, lat: 55.9500, lon: -3.3725, hub: false, region: europe }
+- { slug: glasgow, city: Glasgow, country: United Kingdom, iata: GLA, lat: 55.8719, lon: -4.4331, hub: false, region: europe }
+- { slug: bristol, city: Bristol, country: United Kingdom, iata: BRS, lat: 51.3827, lon: -2.7191, hub: false, region: europe }
+- { slug: newcastle, city: Newcastle, country: United Kingdom, iata: NCL, lat: 55.0375, lon: -1.6917, hub: false, region: europe }
+- { slug: belfast, city: Belfast, country: United Kingdom, iata: BFS, lat: 54.6575, lon: -6.2158, hub: false, region: europe }
+- { slug: dublin, city: Dublin, country: Ireland, iata: DUB, lat: 53.4213, lon: -6.2701, hub: true, region: europe }
+- { slug: paris, city: Paris, country: France, iata: CDG, lat: 49.0097, lon: 2.5479, tz_offset_hours: 2, hub: true, region: europe }
+- { slug: lyon, city: Lyon, country: France, iata: LYS, lat: 45.7256, lon: 5.0811, hub: false, region: europe }
+- { slug: marseille, city: Marseille, country: France, iata: MRS, lat: 43.4393, lon: 5.2214, hub: false, region: europe }
+- { slug: amsterdam, city: Amsterdam, country: Netherlands, iata: AMS, lat: 52.3105, lon: 4.7683, hub: true, region: europe }
+- { slug: brussels, city: Brussels, country: Belgium, iata: BRU, lat: 50.9014, lon: 4.4844, hub: false, region: europe }
+- { slug: frankfurt, city: Frankfurt, country: Germany, iata: FRA, lat: 50.0379, lon: 8.5622, hub: true, region: europe }
+- { slug: munich, city: Munich, country: Germany, iata: MUC, lat: 48.3538, lon: 11.7861, hub: true, region: europe }
+- { slug: berlin, city: Berlin, country: Germany, iata: BER, lat: 52.3667, lon: 13.5033, hub: false, region: europe }
+- { slug: hamburg, city: Hamburg, country: Germany, iata: HAM, lat: 53.6304, lon: 9.9882, hub: false, region: europe }
+- { slug: dusseldorf, city: Düsseldorf, country: Germany, iata: DUS, lat: 51.2895, lon: 6.7668, hub: false, region: europe }
+- { slug: zurich, city: Zurich, country: Switzerland, iata: ZRH, lat: 47.4647, lon: 8.5492, hub: true, region: europe }
+- { slug: geneva, city: Geneva, country: Switzerland, iata: GVA, lat: 46.2381, lon: 6.1090, hub: false, region: europe }
+- { slug: vienna, city: Vienna, country: Austria, iata: VIE, lat: 48.1103, lon: 16.5697, hub: false, region: europe }
+- { slug: milan, city: Milan, country: Italy, iata: MXP, lat: 45.6306, lon: 8.7231, hub: false, region: europe }
+- { slug: rome, city: Rome, country: Italy, iata: FCO, lat: 41.8003, lon: 12.2389, hub: true, region: europe }
+- { slug: madrid, city: Madrid, country: Spain, iata: MAD, lat: 40.4983, lon: -3.5676, tz_offset_hours: 2, hub: true, region: europe }
+- { slug: barcelona, city: Barcelona, country: Spain, iata: BCN, lat: 41.2971, lon: 2.0785, tz_offset_hours: 2, hub: false, region: europe }
+- { slug: lisbon, city: Lisbon, country: Portugal, iata: LIS, lat: 38.7742, lon: -9.1342, hub: false, region: europe }
+- { slug: porto, city: Porto, country: Portugal, iata: OPO, lat: 41.2481, lon: -8.6814, hub: false, region: europe }
+- { slug: copenhagen, city: Copenhagen, country: Denmark, iata: CPH, lat: 55.6180, lon: 12.6508, hub: false, region: europe }
+- { slug: stockholm, city: Stockholm, country: Sweden, iata: ARN, lat: 59.6519, lon: 17.9186, hub: false, region: europe }
+- { slug: oslo, city: Oslo, country: Norway, iata: OSL, lat: 60.1939, lon: 11.1004, hub: false, region: europe }
+- { slug: helsinki, city: Helsinki, country: Finland, iata: HEL, lat: 60.3172, lon: 24.9633, hub: false, region: europe }
+- { slug: warsaw, city: Warsaw, country: Poland, iata: WAW, lat: 52.1657, lon: 20.9671, hub: false, region: europe }
+- { slug: prague, city: Prague, country: Czechia, iata: PRG, lat: 50.1008, lon: 14.2600, hub: false, region: europe }
+- { slug: budapest, city: Budapest, country: Hungary, iata: BUD, lat: 47.4369, lon: 19.2556, hub: false, region: europe }
+- { slug: athens, city: Athens, country: Greece, iata: ATH, lat: 37.9364, lon: 23.9445, hub: false, region: europe }
+- { slug: istanbul, city: Istanbul, country: Türkiye, iata: IST, lat: 41.2753, lon: 28.7519, hub: true, region: europe }
+- { slug: nice, city: Nice, country: France, iata: NCE, lat: 43.6584, lon: 7.2159, hub: false, region: europe }
+- { slug: new-york, city: New York, country: United States, iata: JFK, lat: 40.6413, lon: -73.7781, hub: true, region: north_america }
+- { slug: boston, city: Boston, country: United States, iata: BOS, lat: 42.3656, lon: -71.0096, hub: false, region: north_america }
+- { slug: chicago, city: Chicago, country: United States, iata: ORD, lat: 41.9742, lon: -87.9073, hub: true, region: north_america }
+- { slug: dallas, city: Dallas, country: United States, iata: DFW, lat: 32.8998, lon: -97.0403, hub: true, region: north_america }
+- { slug: atlanta, city: Atlanta, country: United States, iata: ATL, lat: 33.6407, lon: -84.4277, hub: true, region: north_america }
+- { slug: los-angeles, city: Los Angeles, country: United States, iata: LAX, lat: 33.9416, lon: -118.4085, hub: true, region: north_america }
+- { slug: san-francisco, city: San Francisco, country: United States, iata: SFO, lat: 37.6213, lon: -122.3790, hub: true, region: north_america }
+- { slug: seattle, city: Seattle, country: United States, iata: SEA, lat: 47.4502, lon: -122.3088, hub: false, region: north_america }
+- { slug: denver, city: Denver, country: United States, iata: DEN, lat: 39.8561, lon: -104.6737, hub: true, region: north_america }
+- { slug: toronto, city: Toronto, country: Canada, iata: YYZ, lat: 43.6777, lon: -79.6248, hub: true, region: north_america }
+- { slug: vancouver, city: Vancouver, country: Canada, iata: YVR, lat: 49.1967, lon: -123.1815, hub: false, region: north_america }
