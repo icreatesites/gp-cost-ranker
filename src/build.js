@@ -50,7 +50,12 @@ const ctx = { season: SEASON, origins, races, computedAt, statusChecked: cal.sta
 
 write('style.css', CSS);
 write('app.js', JS);
-write('index.html', renderHeadline(ctx));
+// The root is the share link, so it must be a ranked table, not prose. Defaults to one origin;
+// the picker in the H1 switches city in one click. Change DEFAULT_ORIGIN to move it.
+const DEFAULT_ORIGIN = process.env.DEFAULT_ORIGIN || 'london';
+const home = origins.find(o => o.slug === DEFAULT_ORIGIN);
+if (!home) throw new Error(`DEFAULT_ORIGIN '${DEFAULT_ORIGIN}' is not in origins.yaml`);
+write('index.html', renderRanked(ctx, home, byOrigin[home.slug]));
 write(`cheapest-f1-race-${SEASON}/index.html`, renderHeadline(ctx));
 write('methodology/index.html', renderMethodology(ctx));
 for (const origin of origins) {
