@@ -2,6 +2,7 @@
   "name": "gp-cost-ranker",
   "compatibility_date": "2026-08-31",
   "assets": {
-    "directory": "./site"
+    "directory": "./site",
+    "not_found_handling": "404-page"
   }
 }

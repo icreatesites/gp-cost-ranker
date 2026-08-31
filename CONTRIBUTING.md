@@ -48,3 +48,27 @@ npx serve site     # or any static server
 ## Things we don't take PRs for
 
 Anything that sells, books, or holds a basket. A live flight search on page load. User accounts. If you want those, fork it and good luck; the reasons are in `/methodology`.
+
+## The single most useful thing you can do
+
+Every travel figure on this site is a distance model, not a real fare. `data/fare_overrides.yaml`
+replaces the model for one route and month at a time, and one real search is worth more than any
+amount of tuning.
+
+The routes that decide the order of the ranking from the UK are, roughly in order of impact:
+LHR/MAN to SAW (Istanbul), BUD (Budapest), MXP or LIN (Milan), FAO (Portimão), BRU or CRL (Spa),
+MAD (Madrid), GRZ or VIE (Austria) and GYD (Baku).
+
+Search one for the race weekend, then add a line:
+
+```yaml
+- origin_iata: MAN
+  dest_iata: BUD
+  month: 8
+  estimated_return_gbp: 210
+  confidence: medium          # medium = you searched it, high = you paid it
+  source: "Skyscanner, searched 2026-09-04, 31 Jul to 2 Aug, economy return"
+  last_refreshed: 2026-09-04
+```
+
+That moves the row from one confidence bar to two and changes the ranking for everyone.

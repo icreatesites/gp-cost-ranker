@@ -36,7 +36,7 @@
 - { slug: prague, city: Prague, country: Czechia, iata: PRG, lat: 50.1008, lon: 14.2600, hub: false, region: europe }
 - { slug: budapest, city: Budapest, country: Hungary, iata: BUD, lat: 47.4369, lon: 19.2556, hub: false, region: europe }
 - { slug: athens, city: Athens, country: Greece, iata: ATH, lat: 37.9364, lon: 23.9445, hub: false, region: europe }
-- { slug: istanbul, city: Istanbul, country: Türkiye, iata: IST, lat: 41.2753, lon: 28.7519, hub: true, region: europe }
+- { slug: istanbul, city: Istanbul, country: Türkiye, iata: IST, lat: 41.2753, lon: 28.7519, tz_offset_hours: 3, dst: none, hub: true, region: europe }
 - { slug: nice, city: Nice, country: France, iata: NCE, lat: 43.6584, lon: 7.2159, hub: false, region: europe }
 - { slug: new-york, city: New York, country: United States, iata: JFK, lat: 40.6413, lon: -73.7781, hub: true, region: north_america }
 - { slug: boston, city: Boston, country: United States, iata: BOS, lat: 42.3656, lon: -71.0096, hub: false, region: north_america }

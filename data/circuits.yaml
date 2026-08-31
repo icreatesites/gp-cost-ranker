@@ -4,6 +4,7 @@
 # All figures are editor estimates captured 2026-08. Fix by PR.
 
 - circuit_id: bahrain
+  display_location: Sakhir
   name: Bahrain International Circuit
   country: Bahrain
   lat: 26.0325
@@ -16,6 +17,7 @@
   notes: Taxi from Manama is the only realistic option. Cheap hotels are genuinely cheap outside race weekend.
 
 - circuit_id: jeddah
+  display_location: Jeddah
   name: Jeddah Corniche Circuit
   country: Saudi Arabia
   lat: 21.6319
@@ -28,6 +30,7 @@
   notes: Night race. Visa needed for most passports (eVisa).
 
 - circuit_id: albert_park
+  display_location: Melbourne
   name: Albert Park Circuit
   country: Australia
   lat: -37.8497
@@ -40,6 +43,7 @@
   notes: Tram to the circuit from the city centre. Long haul from everywhere except Asia-Pacific.
 
 - circuit_id: shanghai
+  display_location: Shanghai
   name: Shanghai International Circuit
   country: China
   lat: 31.3389
@@ -52,6 +56,7 @@
   notes: Metro line 11 reaches the circuit. Tickets sell out to local demand fast; visa-free transit rules change often, check before booking.
 
 - circuit_id: suzuka
+  display_location: Suzuka
   name: Suzuka Circuit
   country: Japan
   lat: 34.8431
@@ -65,6 +70,7 @@
   notes: Stay in Nagoya, not Suzuka; Suzuka hotels sell out a year ahead. Shinkansen from Osaka works.
 
 - circuit_id: sepang
+  display_location: Sepang
   name: Sepang International Circuit
   country: Malaysia
   lat: 2.7608
@@ -77,6 +83,7 @@
   notes: The circuit is next to the airport. Hotels in KL are excellent value.
 
 - circuit_id: miami
+  display_location: Miami Gardens
   name: Miami International Autodrome
   country: United States
   lat: 25.9581
@@ -90,6 +97,7 @@
   notes: No public transport worth the name. Budget for rideshare surge pricing on race day.
 
 - circuit_id: villeneuve
+  display_location: Montreal
   name: Circuit Gilles Villeneuve
   country: Canada
   lat: 45.5000
@@ -102,6 +110,7 @@
   notes: Metro to Jean-Drapeau station, walk to the track. Hotels triple in price; book early.
 
 - circuit_id: monaco
+  display_location: Monaco
   name: Circuit de Monaco
   country: Monaco
   lat: 43.7347
@@ -114,6 +123,7 @@
   notes: Nobody on a budget sleeps in Monaco. Stay in Nice or Menton and take the train.
 
 - circuit_id: catalunya
+  display_location: Montmeló
   name: Circuit de Barcelona-Catalunya
   country: Spain
   lat: 41.5700
@@ -126,6 +136,7 @@
   notes: Dense hotel inventory, city is cheap to reach from most of Europe. Not on the 2027 calendar.
 
 - circuit_id: red_bull_ring
+  display_location: Spielberg
   name: Red Bull Ring
   country: Austria
   lat: 47.2197
@@ -139,6 +150,7 @@
   notes: Camping is the local tradition and dramatically cuts accommodation cost.
 
 - circuit_id: silverstone
+  display_location: Silverstone
   name: Silverstone Circuit
   country: United Kingdom
   lat: 52.0786
@@ -153,6 +165,7 @@
   notes: Dynamic ticket pricing. Park-and-ride and the Milton Keynes shuttle are the sane options.
 
 - circuit_id: spa
+  display_location: Spa-Francorchamps
   name: Circuit de Spa-Francorchamps
   country: Belgium
   lat: 50.4372
@@ -167,6 +180,7 @@
   notes: Rural. Camping near the circuit is popular; hotels in Liège or Aachen are the alternative.
 
 - circuit_id: hungaroring
+  display_location: Mogyoród
   name: Hungaroring
   country: Hungary
   lat: 47.5789
@@ -179,6 +193,7 @@
   notes: Budapest is one of the cheapest host cities on the calendar. Train + shuttle to the circuit.
 
 - circuit_id: monza
+  display_location: Monza
   name: Autodromo Nazionale Monza
   country: Italy
   lat: 45.6156
@@ -193,6 +208,7 @@
   notes: Train Milan to Monza then a walk or shuttle through the park. Three airports keep fares low.
 
 - circuit_id: madrid
+  display_location: Madrid
   name: Madring
   country: Spain
   lat: 40.4669
@@ -205,6 +221,8 @@
   notes: Circuit is beside the airport and on the metro. First race was 2026; treat everything here as low confidence.
 
 - circuit_id: baku
+  dst: none
+  display_location: Baku
   name: Baku City Circuit
   country: Azerbaijan
   lat: 40.3725
@@ -217,6 +235,7 @@
   notes: eVisa for most passports. Very cheap on the ground; the flight is the cost.
 
 - circuit_id: marina_bay
+  display_location: Marina Bay
   name: Marina Bay Street Circuit
   country: Singapore
   lat: 1.2914
@@ -229,6 +248,7 @@
   notes: Night race. Hotels are the most expensive line by a distance.
 
 - circuit_id: americas
+  display_location: Austin
   name: Circuit of the Americas
   country: United States
   lat: 30.1328
@@ -241,6 +261,8 @@
   notes: Shuttles from downtown are the budget route. Rideshare on race night is brutal.
 
 - circuit_id: rodriguez
+  dst: none
+  display_location: Mexico City
   name: Autódromo Hermanos Rodríguez
   country: Mexico
   lat: 19.4042
@@ -253,6 +275,8 @@
   notes: Metro to the circuit. Cheap city, expensive-ish tickets.
 
 - circuit_id: interlagos
+  dst: none
+  display_location: Interlagos
   name: Autódromo José Carlos Pace
   country: Brazil
   lat: -23.7036
@@ -266,11 +290,12 @@
   notes: Metro/train to Autódromo station. Tickets sell out quickly to domestic demand.
 
 - circuit_id: las_vegas
+  display_location: Las Vegas
   name: Las Vegas Strip Circuit
   country: United States
   lat: 36.1147
   lon: -115.1728
-  tz_offset_hours: -8
+  tz_offset_hours: -7
   nearest_city: Las Vegas
   circuit_transport_gbp_per_day: 0
   airports:
@@ -278,6 +303,7 @@
   notes: Saturday night race; sessions run past midnight. Ticket is the cost; walk from the hotel.
 
 - circuit_id: lusail
+  display_location: Lusail
   name: Lusail International Circuit
   country: Qatar
   lat: 25.4900
@@ -290,6 +316,7 @@
   notes: Metro to Lusail then shuttle. Night race.
 
 - circuit_id: yas_marina
+  display_location: Yas Island
   name: Yas Marina Circuit
   country: United Arab Emirates
   lat: 24.4672
@@ -303,6 +330,7 @@
   notes: Dynamic ticket pricing. Hotel rates spike violently; the earlier you book the better, by a lot.
 
 - circuit_id: portimao
+  display_location: Portimão
   name: Algarve International Circuit
   country: Portugal
   lat: 37.2270
@@ -315,6 +343,8 @@
   notes: Returns 2027. Shuttle buses ran from Portimão and Lagos last time. Holiday-town hotel inventory is deep.
 
 - circuit_id: istanbul
+  dst: none
+  display_location: Istanbul
   name: Istanbul Park
   country: Türkiye
   lat: 40.9517
@@ -328,6 +358,7 @@
   notes: Returns 2027. The circuit is on the Asian side near Sabiha Gökçen; fly there, not IST.
 
 - circuit_id: zandvoort
+  display_location: Zandvoort
   name: Circuit Zandvoort
   country: Netherlands
   lat: 52.3888

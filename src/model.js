@@ -51,7 +51,7 @@ const weekday = dateStr => new Date(dateStr + 'T00:00:00Z').getUTCDay(); // 0 Su
 // assumption 'relaxed' = arrive the day before your first session, leave the day after the race
 function nightsFor({ race, circuit, airport, origin, tier, assumption, ground, groundKm }) {
   const dur = ground ? groundKm / 80 : flightHours(haversineKm(origin, airport), origin);
-  const dtz = circuit.tz_offset_hours - originTz(origin);
+  const dtz = tzOf(circuit, race.race_date) - originTz(origin, race.race_date);
   const daysAtTrack = TIERS[tier].raceDays;
   const raceDow = weekday(race.race_date);
   // First session day = race day minus (daysAtTrack-1). Vegas' Saturday race shifts everything.
@@ -100,7 +100,35 @@ function nightsFor({ race, circuit, airport, origin, tier, assumption, ground, g
   return { nights, arrive, depart, flight_hours: Math.round(dur * 10) / 10, why, raceDow };
 }
 function fmtH(h) { h = ((h % 24) + 24) % 24; return `${String(Math.floor(h)).padStart(2, '0')}:${String(Math.round((h % 1) * 60)).padStart(2, '0')}`; }
-function originTz(o) { return o.tz_offset_hours ?? Math.round(o.lon / 15) + 1; } // summer time approximation; set tz_offset_hours in origins.yaml to override
+// Stored tz_offset_hours are SUMMER offsets for zones that observe DST. Outside the DST window we
+// subtract an hour. Set `dst: none` on a circuit or origin whose zone never shifts (Türkiye, Mexico,
+// Brazil, the Gulf), otherwise the zone is inferred from position.
+function dstZone(x) {
+  if (x.dst) return x.dst;
+  if (x.lon >= -25 && x.lon <= 40 && x.lat > 34) return 'eu';
+  if (x.lon >= -170 && x.lon <= -50 && x.lat > 14) return 'us';
+  if (x.lon >= 110 && x.lon <= 155 && x.lat < 0) return 'au';
+  return 'none';
+}
+function nthDow(year, month, dow, n) { // n = -1 for last
+  if (n === -1) { const d = new Date(Date.UTC(year, month + 1, 0)); return d.getUTCDate() - ((d.getUTCDay() - dow + 7) % 7); }
+  const first = new Date(Date.UTC(year, month, 1));
+  return 1 + ((dow - first.getUTCDay() + 7) % 7) + (n - 1) * 7;
+}
+function inDst(zone, dateStr) {
+  if (zone === 'none') return true; // treat stored offset as always correct
+  const d = new Date(dateStr + 'T12:00:00Z'), y = d.getUTCFullYear();
+  const on = (m, dow, n) => Date.UTC(y, m, nthDow(y, m, dow, n));
+  if (zone === 'eu') return d >= new Date(on(2, 0, -1)) && d < new Date(on(9, 0, -1));
+  if (zone === 'us') return d >= new Date(on(2, 0, 2)) && d < new Date(on(10, 0, 1));
+  if (zone === 'au') return d >= new Date(on(9, 0, 1)) || d < new Date(on(3, 0, 1));
+  return true;
+}
+function tzOf(x, dateStr) {
+  const base = x.tz_offset_hours ?? Math.round(x.lon / 15) + 1;
+  return inDst(dstZone(x), dateStr) ? base : base - 1;
+}
+function originTz(o, dateStr) { return tzOf(o, dateStr); }
 
 function midpoint([lo, hi]) { return Math.round((lo + hi) / 2); }
 
@@ -144,11 +172,11 @@ function computeTrip({ origin, race, circuit, tickets, hotel, overrides, tier, a
     origin: origin.slug, origin_iata: origin.iata, race_id: race.race_id, tier, assumption,
     airport: ap.iata, transfer_mode: ap.transfer_mode, transfer_minutes: ap.transfer_minutes, transfer_each_way: ap.transfer_cost_gbp,
     ticket, ticket_range: ticketRange, ticket_confidence: tickets.confidence, ticket_source: tickets.source, obtainability: tickets.obtainability,
-    flights: f.gbp, flight_confidence: f.confidence, flight_source: f.source, flight_method: f.method, flight_hours: n.flight_hours, flight_km: f.km,
+    flights: f.gbp, flight_confidence: f.confidence, flight_source: f.source, flight_method: f.method, ground: !!ground, flight_hours: n.flight_hours, flight_km: f.km,
     nights: n.nights, nightly, arrive: n.arrive, depart: n.depart, nights_why: n.why, hotel_confidence: hotel.confidence, hotel_stale: hotelAge > 365, hotel_captured: hotel.captured,
     accom, transfer, circuit_transport: circuit.circuit_transport_gbp_per_day * t.raceDays, total,
     confidence: minConf(tickets.confidence, f.confidence, hotel.confidence),
-    ticket_stale: ticketAge > 365, computed_at: computedAt,
+    ticket_stale: ticketAge > 365, ticket_captured: tickets.captured, computed_at: computedAt,
   };
 }
 function ageDays(d, now) { return Math.round((new Date(now) - new Date(d)) / 86400000); }
