@@ -4,6 +4,7 @@ const SITE = (process.env.SITE_URL || 'https://gp-cost-ranker.icreatesites.worke
 const BASE = (process.env.BASE_PATH || '').replace(/\/$/, '');
 const FONT = 'archivo.woff2';
 
+const ymd6 = d => String(d).slice(2).replace(/-/g, '');
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const gbp = n => '£' + Math.round(n).toLocaleString('en-GB');
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -78,20 +79,24 @@ function renderRanked(ctx, origin, rows) {
 
   const boards = TIER_KEYS.map(tier => {
     const list = ctx.races.map(r => ({ race: r, row: rows[r.race_id][tier].tight })).sort((a, b) => a.row.total - b.row.total);
-    const foreign = list.find(x => x.race.circuit.country !== origin.country);
-    const trs = list.map(({ race, row }) => {
+    const mins = {}; for (const k of ['ticket', 'flights', 'accom', 'transfer']) mins[k] = Math.min(...list.map(x => x.row[k]));
+    const leader = list[0].row.total;
+    const foreign = list.find(x => x.race.circuit.country !== origin.country && x.row.total !== leader);
+    const trs = list.map(({ race, row }, i) => {
       const tag = OBTAIN[row.obtainability];
       const tr = ticketRank[race.race_id];
+      const gap = row.total - leader;
+      const lo = k => row[k] === mins[k] ? ' low' : '';
       const parts = `Ticket ${gbp(row.ticket)}, ${row.ground ? 'travel' : 'flights'} ${gbp(row.flights)}, ${row.nights === 0 ? 'no hotel' : row.nights + ' night' + (row.nights === 1 ? '' : 's') + ' ' + gbp(row.accom)}, transfers ${gbp(row.transfer)}`;
-      return `<tr data-ticket="${row.ticket}" data-flights="${row.flights}" data-accom="${row.accom}" data-transfer="${row.transfer}" data-nights="${row.nights}" data-date="${race.race_date}" data-foreign="${race.circuit.country === origin.country ? 0 : 1}"${foreign && foreign.race.race_id === race.race_id ? ' data-firstforeign="1"' : ''}>
-<td class="pos"></td>
-<td class="race"><a href="${BASE}/from/${origin.slug}/${race.race_id}/">${esc(race.name)}</a><span class="sub"><span class="loc">${esc(where(race.circuit))}</span>${tag ? `<span class="tag">${tag}</span>` : ''}<span class="flag-abroad"></span></span></td>
+      return `<tr${row.total === leader ? ' class="lead"' : ''} data-ticket="${row.ticket}" data-flights="${row.flights}" data-accom="${row.accom}" data-transfer="${row.transfer}" data-nights="${row.nights}" data-date="${race.race_date}" data-foreign="${race.circuit.country === origin.country ? 0 : 1}"${foreign && foreign.race.race_id === race.race_id ? ' data-firstforeign="1"' : ''}>
+<td class="pos">${i + 1}</td>
+<td class="race"><a href="${BASE}/from/${origin.slug}/${race.race_id}/">${esc(race.name)}</a><span class="sub"><span class="loc">${esc(where(race.circuit))}</span>${tag ? `<span class="tag">${tag}</span>` : ''}<span class="flag-abroad">${foreign && foreign.race.race_id === race.race_id ? 'cheapest abroad' : ''}</span></span></td>
 <td class="dt">${dateCell(race)}</td>
-<td class="n c-ticket" title="Midpoint of ${gbp(row.ticket_range[0])} to ${gbp(row.ticket_range[1])}"><span class="v">${gbp(row.ticket)}</span></td>
-<td class="n c-flights"><span class="v">${gbp(row.flights)}</span></td>
-<td class="n c-accom"><span class="v">${gbp(row.accom)}</span><span class="sub nts">${row.nights === 0 ? 'no hotel' : row.nights + ' night' + (row.nights === 1 ? '' : 's')}</span></td>
-<td class="n c-transfer"><span class="v">${gbp(row.transfer)}</span></td>
-<td class="n tot"><b>${gbp(row.total)}</b><span class="sub gap"></span></td>
+<td class="n c-ticket${lo('ticket')}" title="Midpoint of ${gbp(row.ticket_range[0])} to ${gbp(row.ticket_range[1])}"><span class="v">${gbp(row.ticket)}</span></td>
+<td class="n c-flights${lo('flights')}"><span class="v">${gbp(row.flights)}</span></td>
+<td class="n c-accom${lo('accom')}"><span class="v">${gbp(row.accom)}</span><span class="sub nts">${row.nights === 0 ? 'no hotel' : row.nights + ' night' + (row.nights === 1 ? '' : 's')}</span></td>
+<td class="n c-transfer${lo('transfer')}"><span class="v">${gbp(row.transfer)}</span></td>
+<td class="n tot"><b>${gbp(row.total)}</b><span class="sub gap">${gap === 0 ? 'cheapest' : '+' + gbp(gap)}</span></td>
 <td class="tr">${ord(tr)}</td>
 <td class="dat">${meter(row.confidence)}</td>
 <td class="parts">${parts}</td></tr>`;
@@ -105,14 +110,14 @@ ${h('Ticket', 'c-ticket', 'Midpoint of the published price range for this tier')
 ${h('Travel', 'c-flights', 'Return flight, or road and rail where the circuit is close enough to drive')}
 ${h('Stay', 'c-accom', 'Nightly rate multiplied by the nights the flight schedule forces')}
 ${h('Transfers', 'c-transfer', 'Airport to town both ways, plus getting to the circuit each day')}
-${h('Total', 'tot', 'Everything above, per person')}
+<th class="n tot" aria-sort="ascending" title="Everything above, per person"><button type="button" data-sort="tot">Total</button></th>
 <th class="tr" title="Where this race would rank if you only compared ticket prices">On ticket</th>
 <th class="dat">Data</th></tr></thead>
 <tbody>${trs}</tbody></table></div>`;
   }).join('');
 
   const best = ctx.races.map(r => ({ r, row: rows[r.race_id].standard.tight })).sort((a, b) => a.row.total - b.row.total);
-  const abroad = best.find(x => x.r.circuit.country !== origin.country);
+  const abroad = best.find(x => x.r.circuit.country !== origin.country && x.r.race_id !== best[0].r.race_id);
 
   const body = `
 <section class="hero">
@@ -131,9 +136,9 @@ ${boards}
 <p>Purple and the ▲ mark the cheapest figure in a column. Ticket prices are the midpoint of a published range; hover one to see the range. An amber date is provisional or the race is only rumoured, so book nothing on it. <a href="${REPO}/tree/main/data">Correct a figure</a> or <a href="${REPO}/issues/new?template=fare-wrong.md">report a fare you found</a>.</p>
 </section>`;
 
-  const desc = abroad
-    ? `${best[0].r.name} is cheapest from ${origin.city} at about ${gbp(best[0].row.total)} a head. ${abroad.r.name} is the cheapest abroad at about ${gbp(abroad.row.total)}. All ${ctx.races.length} races ranked on total weekend cost.`
-    : `All ${ctx.races.length} ${ctx.season} Grands Prix ranked by total weekend cost from ${origin.city}.`;
+  const desc = `${best[0].r.name} is cheapest from ${origin.city} at about ${gbp(best[0].row.total)} a head`
+    + (abroad ? `, and ${abroad.r.name} is the cheapest abroad at about ${gbp(abroad.row.total)}` : '')
+    + `. All ${ctx.races.length} ${ctx.season} races ranked on total weekend cost, not ticket price.`;
   return layout(ctx, {
     title: `Cheapest F1 race from ${origin.city}, ${ctx.season}`, desc, body, origin,
     canonical: `${BASE}/from/${origin.slug}/${ctx.season}/`,
@@ -149,9 +154,10 @@ function renderBreakdown(ctx, origin, race, byTier) {
   const travelLine = g
     ? `${gbp(s.flights)} to get there by road or rail`
     : `${gbp(s.flights)} to fly ${origin.iata} to ${s.airport}`;
-  const stayNote = s.nights === 0
-    ? 'No nights needed: you are close enough to sleep at home.'
-    : `${gbp(s.nightly)} a night mid-range in ${esc(race.circuit.nearest_city)}. ${esc(race.hotel.source)}, checked ${longDate(s.hotel_captured)}.${s.hotel_stale ? ' Over a year old, treat it as a guess.' : ''}`;
+  const rates = `Budget ${gbp(race.hotel.budget)}, mid-range ${gbp(race.hotel.mid)}, comfortable ${gbp(race.hotel.comfortable)} a night in ${esc(race.circuit.nearest_city)}. ${esc(race.hotel.source)}, checked ${longDate(s.hotel_captured)}.${s.hotel_stale ? ' Over a year old, treat it as a guess.' : ''}`;
+  const stayNote = g
+    ? `Zero where commuting in each day works out cheaper. ${rates}`
+    : rates;
   const transferNote = g
     ? `About ${gbp(race.circuit.circuit_transport_gbp_per_day)} a day getting to the circuit and back.`
     : `${s.airport} to town by ${esc(s.transfer_mode)}, ${gbp(s.transfer_each_way)} each way, ${s.transfer_minutes} min. Plus ${gbp(race.circuit.circuit_transport_gbp_per_day)} a day to the circuit.`;
@@ -170,7 +176,7 @@ function renderBreakdown(ctx, origin, race, byTier) {
 <thead><tr><th><span class="sr">Cost</span></th>${TIER_KEYS.map(t => `<th class="n">${TIERS[t].label}</th>`).join('')}</tr></thead>
 <tbody>
 ${row('Ticket', `${esc(s.ticket_source.replace(/\.?$/, '.'))} Standard range ${gbp(s.ticket_range[0])} to ${gbp(s.ticket_range[1])}. Checked ${longDate(s.ticket_captured)}.${s.ticket_stale ? ' Over a year old, treat it as a guess.' : ''}`, 'ticket')}
-${row(g ? 'Getting there' : 'Flights', g ? esc(s.flight_source) : `${esc(s.flight_source)} Into ${s.airport}, roughly ${s.flight_hours}h each way.`, 'flights')}
+${row(g ? 'Getting there' : 'Flights', g ? `By road or rail, about ${Math.round(s.flight_km)} km and roughly ${s.flight_hours}h each way. Costed as a daily commute or as one trip plus nights, whichever is cheaper for that budget.` : `${esc(s.flight_source)} Into ${s.airport}, roughly ${s.flight_hours}h each way.`, 'flights')}
 <tr class="nights"><th>Nights<span class="sub">How many the schedule forces, not a guess</span>
 <span class="assume" role="group" aria-label="Travel assumption"><button type="button" data-assume="tight" aria-pressed="true">Travel tight</button><button type="button" data-assume="relaxed" aria-pressed="false">Day either side</button></span></th>
 ${TIER_KEYS.map(t => `<td class="n" data-tight="${byTier[t].tight.nights}" data-relaxed="${byTier[t].relaxed.nights}">${byTier[t].tight.nights}</td>`).join('')}</tr>
@@ -187,6 +193,10 @@ ${why}
 <section class="panel">
 <h2>Next steps</h2>
 <p>${next} For tickets, the <a href="${BASE}/race/${race.race_id}/">race page</a> has the on-sale date and the official link.${race.status !== 'confirmed' ? ' Book nothing non-refundable until FOM confirms the date.' : ''}</p>
+<p class="actions">${g
+  ? `<a class="btn" href="https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin.city + ' ' + origin.country)}&destination=${encodeURIComponent(race.circuit.name)}" rel="noopener nofollow">Check the drive</a>`
+  : `<a class="btn" href="https://www.google.com/travel/flights?q=${encodeURIComponent(`Flights from ${origin.iata} to ${s.airport} on ${s.arrive} through ${s.depart}`)}" rel="noopener nofollow">Check this fare on Google Flights</a><a class="btn btn-2" href="https://www.skyscanner.net/transport/flights/${origin.iata.toLowerCase()}/${s.airport.toLowerCase()}/${ymd6(s.arrive)}/${ymd6(s.depart)}/" rel="noopener nofollow">Skyscanner</a>`}</p>
+<p class="muted">Those open a search with the route and dates already filled in. We get nothing if you book, and no seller pays to appear here.</p>
 <p class="muted">Found a real fare, or paid for a room here? <a href="${REPO}/issues/new?template=fare-wrong.md&title=Fare+from+${encodeURIComponent(origin.city)}+to+${encodeURIComponent(race.name)}+looks+wrong">Tell us what you paid</a> and it replaces the estimate on this page. Computed ${longDate(ctx.computedAt)}.</p>
 </section>`;
   return layout(ctx, {
@@ -507,6 +517,13 @@ th.dat{text-align:left}
   border:0;border-radius:999px;padding:8px 14px;min-height:36px;cursor:pointer;transition:color .16s,background .16s}
 .assume button[aria-pressed=true]{background:var(--ink);color:#fff}
 .undertable{margin:14px 2px 0;font-size:.92rem;color:var(--ink2)}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin:4px 0 12px}
+.actions a.btn{display:inline-flex;align-items:center;min-height:42px;padding:10px 18px;border-radius:999px;
+  background:var(--ink);color:#fff;font-size:.92rem;font-weight:600;text-decoration:none;
+  transition:opacity .15s}
+.actions a.btn:hover{opacity:.86;color:#fff}
+.actions a.btn-2{background:var(--paper);color:var(--ink);border:1px solid var(--line2)}
+.actions a.btn-2:hover{color:var(--ink);border-color:var(--purple);opacity:1}
 @keyframes flash{from{background:var(--purple-bg)}to{background:transparent}}
 .flash{animation:flash .5s ease-out}
 

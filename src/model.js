@@ -46,11 +46,65 @@ function addDays(dateStr, n) {
 const hm = s => { const [h, m] = s.split(':').map(Number); return h + m / 60; };
 const weekday = dateStr => new Date(dateStr + 'T00:00:00Z').getUTCDay(); // 0 Sun ... 6 Sat
 
+// Beyond about 2.5 hours each way, three round trips in a weekend stops being a thing anyone does,
+// so we only consider commuting below that.
+const MAX_COMMUTE_HOURS = 2.5;
+
+function sessionClock(race, tier) {
+  const daysAtTrack = TIERS[tier].raceDays;
+  const firstDay = addDays(race.race_date, -(daysAtTrack - 1));
+  return {
+    daysAtTrack, firstDay,
+    firstSessionStart: daysAtTrack === 3 ? hm(race.fp1_local) : hm(race.fp1_local) + 2,
+    raceEnd: hm(race.race_local) + 2,
+  };
+}
+
+// Ground routes: cost commuting against staying and return whichever is cheaper.
+function groundPlan({ race, tier, km, returnCost, nightly, assumption }) {
+  const { daysAtTrack, firstDay, firstSessionStart, raceEnd } = sessionClock(race, tier);
+  const h = km / 80, hh = Math.round(h * 10) / 10;
+  const inOk = 6 + h <= firstSessionStart, outOk = raceEnd + h <= 24;
+  const dayTripOk = inOk && outOk && h <= MAX_COMMUTE_HOURS;
+
+  const stayArrive = assumption === 'relaxed' ? addDays(firstDay, -1) : (inOk ? firstDay : addDays(firstDay, -1));
+  const stayDepart = assumption === 'relaxed' ? addDays(race.race_date, 1) : (outOk ? race.race_date : addDays(race.race_date, 1));
+  const stayNights = Math.round((new Date(stayDepart) - new Date(stayArrive)) / 86400000);
+  const stayCost = returnCost + stayNights * nightly;
+  const commuteCost = returnCost * daysAtTrack;
+
+  const commute = dayTripOk && commuteCost < stayCost;
+  const trips = daysAtTrack === 1 ? 'one return trip' : daysAtTrack === 2 ? 'two return trips' : 'three return trips';
+  const why = [];
+  if (commute) {
+    why.push(h < 0.75
+      ? `You are practically on top of the circuit, about ${Math.round(km)} km away.`
+      : `About ${hh}h each way, so a day trip works: leave at 06:00 for the ${fmtH(firstSessionStart)} session and you are home by ${fmtH(raceEnd + h)}.`);
+    why.push(`${trips.charAt(0).toUpperCase() + trips.slice(1)} costs £${commuteCost}, against £${stayCost} to travel once and stay ${stayNights} night${stayNights === 1 ? '' : 's'}.` + (h >= 1.25 ? ' Long days, but cheaper, so no hotel.' : ' No hotel needed.'));
+  } else if (!dayTripOk) {
+    why.push(`About ${hh}h each way.` + (h > MAX_COMMUTE_HOURS ? ' Too far to do three times in a weekend.' : !inOk ? ` You cannot make the ${fmtH(firstSessionStart)} session from home.` : ` The race ends about ${fmtH(raceEnd)}, too late to get home.`));
+    why.push(`So you stay ${stayNights} night${stayNights === 1 ? '' : 's'}.`);
+  } else {
+    why.push(`About ${hh}h each way. A day trip is possible, but ${trips} would cost £${commuteCost} against £${stayCost} to travel once and stay ${stayNights} night${stayNights === 1 ? '' : 's'}.`);
+    why.push('Staying is cheaper here, so that is what is costed.');
+  }
+  return {
+    nights: commute ? 0 : stayNights,
+    travel: commute ? commuteCost : returnCost,
+    arrive: commute ? firstDay : stayArrive,
+    depart: commute ? race.race_date : stayDepart,
+    flight_hours: hh, why, commute,
+    source: commute
+      ? `${trips.charAt(0).toUpperCase() + trips.slice(1)} by road or rail, about ${Math.round(km)} km each way.`
+      : `One return trip by road or rail, about ${Math.round(km)} km each way.`,
+  };
+}
+
 // The signature calculation: how many nights does this flight schedule actually force?
 // assumption 'tight'   = fly around the sessions as tightly as the clock allows
 // assumption 'relaxed' = arrive the day before your first session, leave the day after the race
-function nightsFor({ race, circuit, airport, origin, tier, assumption, ground, groundKm }) {
-  const dur = ground ? groundKm / 80 : flightHours(haversineKm(origin, airport), origin);
+function nightsFor({ race, circuit, airport, origin, tier, assumption }) {
+  const dur = flightHours(haversineKm(origin, airport), origin);
   const dtz = tzOf(circuit, race.race_date) - originTz(origin, race.race_date);
   const daysAtTrack = TIERS[tier].raceDays;
   const raceDow = weekday(race.race_date);
@@ -61,18 +115,6 @@ function nightsFor({ race, circuit, airport, origin, tier, assumption, ground, g
   const transferH = airport.transfer_minutes / 60;
 
   let arrive, depart, why = [];
-  if (ground && groundKm < 90) {
-    arrive = firstDay; depart = race.race_date; why.push(`About ${Math.round(groundKm)} km from home. Commute in each day and sleep in your own bed: no hotel at all.`);
-    return { nights: 0, arrive, depart, flight_hours: Math.round(dur * 10) / 10, why, raceDow };
-  }
-  if (ground && assumption !== 'relaxed') {
-    const h = Math.round(dur * 10) / 10;
-    const inOk = 6 + dur <= firstSessionStart, outOk = raceEnd + dur <= 24;
-    arrive = inOk ? firstDay : addDays(firstDay, -1); depart = outOk ? race.race_date : addDays(race.race_date, 1);
-    why.push(`About ${h}h by road or rail each way. ` + (inOk ? `Leave at 06:00 and you're at the track before the ${fmtH(firstSessionStart)} session.` : `You can't make the ${fmtH(firstSessionStart)} session from home, so arrive the day before.`) + ' ' + (outOk ? `Race ends about ${fmtH(raceEnd)}; home by ${fmtH(raceEnd + dur)}.` : `Race ends about ${fmtH(raceEnd)}, too late to travel home, so one more night.`));
-    const nights = Math.round((new Date(depart) - new Date(arrive)) / 86400000);
-    return { nights, arrive, depart, flight_hours: h, why, raceDow };
-  }
   if (assumption === 'relaxed') {
     arrive = addDays(firstDay, -1);
     depart = addDays(race.race_date, 1);
@@ -80,7 +122,7 @@ function nightsFor({ race, circuit, airport, origin, tier, assumption, ground, g
   } else {
     // Arrival: leave origin at 06:00 local, land at 06:00 + duration + tz shift.
     const landLocal = 6 + dur + dtz;
-    const atTrack = landLocal + transferH + (ground ? 0 : 1);
+    const atTrack = landLocal + transferH + 1;
     const sameDayIn = dur <= 5.5 && atTrack <= firstSessionStart;
     arrive = sameDayIn ? firstDay : addDays(firstDay, -1);
     why.push(sameDayIn
@@ -89,8 +131,8 @@ function nightsFor({ race, circuit, airport, origin, tier, assumption, ground, g
         ? `About ${dur.toFixed(1)}h in the air each way, so you need to arrive the day before.`
         : `Earliest arrival is about ${fmtH(landLocal)} local plus ${airport.transfer_minutes} min transfer; the first session starts ${fmtH(firstSessionStart)}. That forces a night before.`);
     // Departure: need race end + transfer + 2.5h check-in before a 23:00 last departure.
-    const readyToFly = raceEnd + transferH + (ground ? 0 : 2.5);
-    const sameDayOut = ground ? raceEnd + dur <= 24.5 : (readyToFly <= 23 && dur <= 12);
+    const readyToFly = raceEnd + transferH + 2.5;
+    const sameDayOut = readyToFly <= 23 && dur <= 12;
     depart = sameDayOut ? race.race_date : addDays(race.race_date, 1);
     why.push(sameDayOut
       ? `The race ends about ${fmtH(raceEnd)}; you can be airside by ${fmtH(readyToFly)} for an evening flight home.`
@@ -131,6 +173,7 @@ function tzOf(x, dateStr) {
 function originTz(o, dateStr) { return tzOf(o, dateStr); }
 
 function midpoint([lo, hi]) { return Math.round((lo + hi) / 2); }
+const money = n => '\u00A3' + Math.round(n).toLocaleString('en-GB');
 
 function fareFor(origin, airport, month, tier, overrides) {
   const key = `${origin.iata}:${airport.iata}:${month}`;
@@ -152,28 +195,52 @@ function computeTrip({ origin, race, circuit, tickets, hotel, overrides, tier, a
     if (!best || cost < best.cost) best = { ap, f, cost };
   }
   let { ap, f } = best;
-  // Under ~350 km you drive or take the train. No flight, no airport transfer.
+  const nightly = hotel[t.hotel];
+  // Under ~350 km you drive or take the train. Then the real question is the one this whole site
+  // exists to ask: is it cheaper to commute in each day, or to travel once and pay for nights?
+  // We cost both and take the cheaper, as long as a day trip is actually doable.
   const groundKm = haversineKm(origin, circuit);
   const ground = groundKm < 350;
+  let plan = null;
   if (ground) {
     const mult = { shoestring: 0.7, standard: 1, comfortable: 1.5 }[tier];
-    f = { gbp: Math.round((30 + groundKm * 0.16) * mult / 10) * 10, confidence: 'medium', source: `Ground travel, about ${Math.round(groundKm)} km by road: train or fuel and parking, no flight.`, method: 'ground', km: Math.round(groundKm) };
+    const returnCost = Math.round((30 + groundKm * 0.16) * mult / 10) * 10;
+    plan = groundPlan({ race, tier, km: groundKm, returnCost, nightly, assumption });
+    f = { gbp: plan.travel, confidence: 'medium', source: plan.source, method: 'ground', km: Math.round(groundKm) };
     ap = { iata: circuit.nearest_city, transfer_cost_gbp: 0, transfer_minutes: Math.round(groundKm / 80 * 60), transfer_mode: 'drive or train', lat: circuit.lat, lon: circuit.lon };
   }
-  const n = nightsFor({ race, circuit, airport: ap, origin, tier, assumption, ground, groundKm });
-  const nightly = hotel[t.hotel];
+  const n = plan || nightsFor({ race, circuit, airport: ap, origin, tier, assumption });
   const ticketRange = tickets[t.ticket];
   const ticket = midpoint(ticketRange);
-  const accom = n.nights * nightly;
+
+  // For a drive or train of 90-350 km there are two honest trips: take a room near the circuit,
+  // or travel in and back each day. Price both and keep the cheaper one. This is the same
+  // travel-versus-nights coupling the rest of the site is about, applied to the home race.
+  let travel = f.gbp, nights = n.nights, why = n.why.slice();
+  if (ground && groundKm >= 90 && assumption === 'tight' && n.nights > 0) {
+    const stayCost = f.gbp + n.nights * nightly;
+    const commuteCost = f.gbp * t.raceDays;
+    const hrs = Math.round((groundKm / 80) * 2 * t.raceDays * 10) / 10;
+    const nts = `${n.nights} night${n.nights === 1 ? '' : 's'}`;
+    if (commuteCost < stayCost) {
+      travel = commuteCost; nights = 0;
+      why = [`About ${Math.round(groundKm)} km each way, so both options are open. A room for ${nts} plus one return trip comes to ${money(stayCost)}. Travelling in and back on each of the ${t.raceDays} days costs ${money(commuteCost)} and needs no hotel, so that is what is priced here. It is roughly ${hrs} hours of travelling across the weekend.`];
+    } else {
+      why = n.why.concat([`Travelling in and back each day would cost ${money(commuteCost)} against ${money(stayCost)} for a room and one return trip, so staying ${nts} is the cheaper way round.`]);
+    }
+  }
+
+  const accom = nights * nightly;
   const transfer = 2 * ap.transfer_cost_gbp + circuit.circuit_transport_gbp_per_day * t.raceDays;
-  const total = ticket + f.gbp + accom + transfer;
+  const total = ticket + travel + accom + transfer;
   const hotelAge = ageDays(hotel.captured, computedAt), ticketAge = ageDays(tickets.captured, computedAt);
   return {
     origin: origin.slug, origin_iata: origin.iata, race_id: race.race_id, tier, assumption,
     airport: ap.iata, transfer_mode: ap.transfer_mode, transfer_minutes: ap.transfer_minutes, transfer_each_way: ap.transfer_cost_gbp,
     ticket, ticket_range: ticketRange, ticket_confidence: tickets.confidence, ticket_source: tickets.source, obtainability: tickets.obtainability,
-    flights: f.gbp, flight_confidence: f.confidence, flight_source: f.source, flight_method: f.method, ground: !!ground, flight_hours: n.flight_hours, flight_km: f.km,
-    nights: n.nights, nightly, arrive: n.arrive, depart: n.depart, nights_why: n.why, hotel_confidence: hotel.confidence, hotel_stale: hotelAge > 365, hotel_captured: hotel.captured,
+    flights: travel, flight_confidence: f.confidence, flight_source: f.source + (nights === 0 && ground && groundKm >= 90 ? ` Priced as ${t.raceDays} return trips, one for each day at the circuit.` : ''),
+    flight_method: f.method, ground: !!ground, commute: !!(plan && plan.commute), flight_hours: n.flight_hours, flight_km: f.km,
+    nights, nightly, arrive: n.arrive, depart: nights === 0 && ground ? race.race_date : n.depart, nights_why: why, hotel_confidence: hotel.confidence, hotel_stale: hotelAge > 365, hotel_captured: hotel.captured,
     accom, transfer, circuit_transport: circuit.circuit_transport_gbp_per_day * t.raceDays, total,
     confidence: minConf(tickets.confidence, f.confidence, hotel.confidence),
     ticket_stale: ticketAge > 365, ticket_captured: tickets.captured, computed_at: computedAt,

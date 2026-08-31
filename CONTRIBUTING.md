@@ -72,3 +72,7 @@ Search one for the race weekend, then add a line:
 ```
 
 That moves the row from one confidence bar to two and changes the ranking for everyone.
+
+Every race page has a "Check this fare on Google Flights" button with the route and dates already
+filled in. Click it, note what comes back, and paste the number into a pull request or an issue.
+That is the whole loop.
