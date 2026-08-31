@@ -62,7 +62,7 @@ ${canonical ? `<link rel="canonical" href="${SITE}${canonical}">` : ''}
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ''}</head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<header class="top"><a class="mark" href="${BASE}/">GP cost ranker</a><nav>${hidePicker ? '' : originSelect(ctx, origin, seasonHref)}<a href="${BASE}/cheapest-f1-race-${ctx.season}/">Why rank this way</a><a href="${BASE}/methodology/">Method</a></nav></header>
+<header class="top"><a class="mark" href="${BASE}/">GP cost ranker</a><nav>${hidePicker ? '' : `<span class="from">From</span>${originSelect(ctx, origin, seasonHref)}`}<a href="${BASE}/cheapest-f1-race-${ctx.season}/">Why rank this way</a><a href="${BASE}/methodology/">Method</a></nav></header>
 <main id="main">${body}</main>
 <footer><p>Free and open source. Every figure comes from a plain text file anyone can correct by pull request. Calendar data from <a href="https://api.jolpi.ca/">Jolpica-F1</a>, which is volunteer-run and takes donations. Nothing is sold here and we take no commission from anyone. Not affiliated with Formula 1.</p>
 <p class="feet"><a href="${BASE}/methodology/">How the numbers work</a> <a href="${BASE}/cheapest-f1-race-${ctx.season}/">Why rank this way</a> <a href="${REPO}">Source and data</a> <a href="${REPO}/issues/new?template=fare-wrong.md">Report a fare</a></p></footer>
@@ -116,7 +116,7 @@ ${h('Total', 'tot', 'Everything above, per person')}
 
   const body = `
 <section class="hero">
-<h1>Cheapest F1 race in ${ctx.season} from ${originSelect(ctx, origin, o => `${BASE}/from/${o.slug}/${ctx.season}/`, true)}</h1>
+<h1>Cheapest F1 race in ${ctx.season} from ${esc(origin.city)}</h1>
 <p class="lede">Ranked by the whole weekend, not the ticket. Travel from ${esc(origin.iata)}, the hotel nights your flight times force, and getting to the track. Per person. <a href="${BASE}/cheapest-f1-race-${ctx.season}/">Why rank this way?</a></p>
 <div class="controls">
 <div class="switch" role="group" aria-label="Budget tier">${TIER_KEYS.map(t => `<button type="button" data-tier="${t}" aria-pressed="${t === 'standard'}" title="${esc(TIERS[t].blurb)}">${TIERS[t].label}</button>`).join('')}</div>
@@ -329,10 +329,10 @@ const CSS = `
 }
 *{box-sizing:border-box}
 html{font-size:16px;-webkit-text-size-adjust:100%}
-/* Archivo's word space is narrow (~22% of em). Below about 0.9rem it rounds down to 2px and
-   "UK and Ireland" reads as "UKand Ireland". Give small text a little more room. */
-.sub,.tag,.pick-group,.muted,.freshness,.parts,.legend,.crumb,.switch-note,.status,
-.ranked thead th,.detail thead th,.kv th,footer,.pick-search,.pick-empty{word-spacing:.085em}
+/* Archivo's word space is narrow (~22% of em). At or below 0.8rem it rounds down to 2px and
+   "UK and Ireland" reads as "UKand Ireland". Only those sizes need the nudge; applying it higher
+   up makes normal text look gappy. */
+.sub,.tag,.pick-group,.parts,.freshness,.ranked thead th,.detail thead th,.assume button{word-spacing:.06em}
 body{margin:0;background:var(--bg);color:var(--ink);
   font-family:Archivo,ui-sans-serif,system-ui,sans-serif;font-variation-settings:'wdth' 100;
   font-size:1rem;line-height:1.55;font-variant-numeric:tabular-nums lining-nums;
@@ -348,6 +348,7 @@ main{max-width:1180px;margin:0 auto;padding:0 28px 80px}
   border-bottom:1px solid var(--line)}
 .mark{font-weight:700;font-variation-settings:'wdth' 112;letter-spacing:-.02em;font-size:1.02rem;white-space:nowrap}
 .top nav{margin-left:auto;display:flex;gap:18px;align-items:center;font-size:.92rem;color:var(--ink2)}
+.from{margin-right:-11px;color:var(--ink3);font-size:.88rem}
 .top nav a:hover{color:var(--purple)}
 
 .hero{padding:74px 0 30px}
@@ -542,6 +543,7 @@ footer p{max-width:84ch;margin:0 0 10px}
   .top{padding:11px 14px;gap:9px;flex-wrap:nowrap}
   .mark{font-size:.9rem}
   .top nav{gap:10px;font-size:.79rem;min-width:0}
+  .from{margin-right:-6px;font-size:.78rem}
   .top .pick select{font-size:.79rem;padding:.26em 1.5em .26em .6em}
   .top nav a[href$="-2027/"]{display:none}
   .hero{padding:38px 0 20px}
